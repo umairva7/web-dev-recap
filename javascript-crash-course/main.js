@@ -48,9 +48,8 @@ console.log(todoJSON);
 
 
 //Loops
-todo.forEach(function(todo){
-    console.log(todo.text);
-}
+todo.forEach(item => console.log(item.text));
+
 
 //classes
 class Person{
@@ -76,11 +75,11 @@ console.log(person1.getFullName());
 
 
 //DOM Manipulation
-document.getElementById('my-form').addEventListener('submit', function(e){
-    e.preventDefault();
-    console.log(document.getElementById('name').value);
-    console.log(document.getElementById('email').value);
-});
+// document.getElementById('my-form').addEventListener('submit', function(e){
+//     e.preventDefault();
+//     console.log(document.getElementById('name').value);
+//     console.log(document.getElementById('email').value);
+// });
 
 //ES6 Features
 //Arrow Functions
@@ -97,12 +96,11 @@ console.log(firstName); // John
 console.log(lastName); // Doe
 
 //Modules
-import { sayHello } from './utils.js';
-sayHello('John');   
+// import { sayHello } from './utils.js';
+// sayHello('John');   
 
   
 
-getData();
 
 //Error Handling
 try {
@@ -152,3 +150,6 @@ async function getData() {
     const data = await response.json();
     console.log(data);
 }
+//getData();
+
+console.log('End of Script');
