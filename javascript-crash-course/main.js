@@ -100,30 +100,7 @@ console.log(lastName); // Doe
 import { sayHello } from './utils.js';
 sayHello('John');   
 
-//Asynchronous JS - Promises    
-const fetchData = () => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            const data = { name: 'John', age: 30 };
-            resolve(data);
-        }, 2000);       
-    });
-};
-
-fetchData()
-    .then(data => console.log(data))
-    .catch(err => console.error(err));          
-
-
-//Async/Await
-const getData = async () => {
-    try {   
-        const data = await fetchData();
-        console.log(data);
-    } catch (err) {
-        console.error(err);
-    }       
-};
+  
 
 getData();
 
@@ -137,3 +114,41 @@ finally {
     console.log('This will always run');
 }
 
+//Asynchronous JS - Promises, Async/Await
+
+let p = new Promise((resolve, reject) => {
+    let a = 1 + 1;
+    if(a == 2){
+        resolve('Success');
+    } else {
+        reject('Failed');
+    }
+});
+
+// Example usage:
+p.then(message => {
+    console.log(message);
+}).catch(error => {
+    console.error(error);
+});
+
+//Transform Callback to Promise
+function getDataPromise() {
+    return new Promise((resolve, reject) => {   
+        setTimeout(() => {
+            const data = { name: 'John', age: 30 };
+            resolve(data);
+        }, 2000);
+    });
+}
+getDataPromise().then(data => {
+    console.log(data);
+}).catch(err => {
+    console.error(err);
+});
+
+async function getData() {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const data = await response.json();
+    console.log(data);
+}
