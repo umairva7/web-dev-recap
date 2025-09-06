@@ -150,6 +150,6 @@ async function getData() {
     const data = await response.json();
     console.log(data);
 }
-//getData();
+//getData(); 
 
 console.log('End of Script');
