@@ -18,29 +18,46 @@ const jsonMiddleware=(req, res, next)=>{
     next();
 }
 
-// Route Handler
+// Route Handler for Get /api/users
+const getUsers=(req, res)=>{
+    res.write(JSON.stringify(users));
+    res.end();
+}
+
+const getUserById=(req, res)=>{
+    const id=req.url.split('/')[3];
+    const user=users.find(u=>u.id===parseInt(id));
+    if(user){
+        res.write(JSON.stringify(user));
+        res.end();
+    }
+    else{
+        res.writeHead(404);
+        res.write(JSON.stringify({message:'User not found'}));
+        res.end();
+    }
+}
+
+const notFound=(req, res)=>{
+    res.writeHead(404);
+    res.write(JSON.stringify({message:'Route not found'}));
+    res.end();
+}
 
 const server=createServer((req, res)=>{
     logger(req, res, ()=>{
-        if(req.url==='/api/users'){
-        res.writeHead(200, {'Content-Type':'application/json'});    
-        res.end(JSON.stringify(users));
-    }
-    else if(req.url.match(/\/api\/users\/([0-9]+)/)){
-        const id=req.url.split('/')[3];
-        const user=users.find(u=>u.id===parseInt(id));
-        if(user){
-            res.writeHead(200, {'Content-Type':'application/json'});
-            res.end(JSON.stringify(user));
-        } else{
-            res.writeHead(404, {'Content-Type':'application/json'});    
-            res.end(JSON.stringify({message:'User not found'}));
-        }
-    }
-    else{
-        res.writeHead(404, {'Content-Type':'application/json'});    
-        res.end(JSON.stringify({message:'Route not found'}));
-    }
+        jsonMiddleware(req, res, ()=>{
+            if(req.method==='GET' && req.url==='/api/users'){
+                getUsers(req, res);
+            }
+            else if(req.method==='GET' && req.url.match(/\/api\/users\/\d+/)){
+                getUserById(req, res);
+            }
+            else{
+                notFound(req, res);
+            }
+        });
+
     });
     
 });
