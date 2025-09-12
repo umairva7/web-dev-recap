@@ -6,8 +6,23 @@ const users=[
     {id:3, name:'Ahmed'},
 ];
 
+//logger middleware
+const logger=(req, res, next)=>{
+    console.log(`${req.method} ${req.url}`);
+    next();
+}
+
+//JSON middleware
+const jsonMiddleware=(req, res, next)=>{
+    res.setHeader('Content-Type', 'application/json');
+    next();
+}
+
+// Route Handler
+
 const server=createServer((req, res)=>{
-    if(req.url==='/api/users'){
+    logger(req, res, ()=>{
+        if(req.url==='/api/users'){
         res.writeHead(200, {'Content-Type':'application/json'});    
         res.end(JSON.stringify(users));
     }
@@ -26,6 +41,8 @@ const server=createServer((req, res)=>{
         res.writeHead(404, {'Content-Type':'application/json'});    
         res.end(JSON.stringify({message:'Route not found'}));
     }
+    });
+    
 });
 
 const PORT=5000 || process.env.PORT;
