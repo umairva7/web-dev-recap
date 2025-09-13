@@ -44,6 +44,23 @@ const notFound=(req, res)=>{
     res.end();
 }
 
+//Route handler for POST /api/users
+const createUserHandler=(req, res)=>{
+    let body='';
+    //Listen for data event
+    req.on('data', chunk=>{
+        body+=chunk.toString();
+    });
+    //Listen for end event
+    req.on('end', ()=>{ 
+        const {name}=JSON.parse(body);
+        const newUser={id:users.length+1, name};
+        users.push(newUser);    
+        res.writeHead(201);
+        res.write(JSON.stringify(newUser));
+        res.end();
+    });
+
 const server=createServer((req, res)=>{
     logger(req, res, ()=>{
         jsonMiddleware(req, res, ()=>{
@@ -52,6 +69,9 @@ const server=createServer((req, res)=>{
             }
             else if(req.method==='GET' && req.url.match(/\/api\/users\/\d+/)){
                 getUserById(req, res);
+            }
+            else if(req.method==='POST' && req.url==='/api/users'){
+                createUserHandler(req, res);
             }
             else{
                 notFound(req, res);
