@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
-    "dev": "nodemon --watch server"
+    "dev": "nodemon --watch . --exec \"node --env-file=.env server.js\""
   },
   "author": "Umair Imran",
   "license": "ISC",
