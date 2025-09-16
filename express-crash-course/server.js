@@ -1,7 +1,8 @@
-const express = require('express');
-const path = require('path');
-const port = process.env.PORT || 5090;
-const postsRouter = require('./routes/posts');
+import express from 'express';
+import path from 'path';
+const port = process.env.PORT || 5000;
+import postsRouter from './routes/posts.js';
+
 
 const app = express();
 
