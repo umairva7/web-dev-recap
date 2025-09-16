@@ -29,4 +29,14 @@ router.get('/', (req, res) => {
   res.json(posts.slice(0, limit));
 });
 
+//Create a new post
+router.post('/', (req, res) => {
+  const newPost = {
+    id: posts.length + 1,
+    title: `Post ${posts.length + 1}`
+  };
+  posts.push(newPost);
+  res.status(201).json(newPost);
+});
+
 export default router;
