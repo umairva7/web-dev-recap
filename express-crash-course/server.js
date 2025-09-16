@@ -20,6 +20,13 @@ app.get('/api/posts/:id', (req, res) => {
     res.json(post);
 });
 
+//Get all posts
+app.get('/api/posts', (req, res) => {
+    const limit = parseInt(req.query.limit) || posts.length;
+    res.json(posts.slice(0, limit));
+});
+
+
 
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
