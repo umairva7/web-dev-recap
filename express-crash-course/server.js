@@ -1,30 +1,18 @@
 const express = require('express');
 const path = require('path');
 const port = process.env.PORT || 5090;
+const postsRouter = require('./routes/posts');
 
 const app = express();
 
 // Set static folder
 //app.use(express.static(path.join(__dirname, 'public')));
-let posts = [
-  { id: 1, title: 'Post One' },
-  { id: 2, title: 'Post Two' },
-];
+
+// Define Routes
+app.use('/api/posts', postsRouter);
 
 
-//Get single post
-app.get('/api/posts/:id', (req, res) => {
-    const id= parseInt(req.params.id);
-    const post = posts.find(p => p.id === id);
-    if(!post) return res.status(404).json({msg: 'Post not found'});
-    res.json(post);
-});
 
-//Get all posts
-app.get('/api/posts', (req, res) => {
-    const limit = parseInt(req.query.limit) || posts.length;
-    res.json(posts.slice(0, limit));
-});
 
 
 
