@@ -9,14 +9,17 @@ let posts = [
   { id: 5, title: 'Post Five' },
 ];
 
+
 // @route   GET /api/posts/:id
 // @desc    Get single post
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res,next) => {
   const id = parseInt(req.params.id);
   const post = posts.find(p => p.id === id);
 
   if (!post) {
-    return res.status(404).json({ msg: 'Post not found' });
+    const error=new Error('Post not found');
+    error.status=404;
+    return next(error);
   }
 
   res.json(post);
@@ -37,6 +40,27 @@ router.post('/', (req, res) => {
   };
   posts.push(newPost);
   res.status(201).json(newPost);
+});
+
+//Update a post
+router.put('/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const post = posts.find(p => p.id === id);
+    if (!post) {
+    return res.status(404).json({ msg: 'Post not found' });
+    }
+    post.title = req.body.title || post.title;
+    res.json(post);
+});
+//Delete a post
+router.delete('/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const postIndex = posts.findIndex(p => p.id === id);
+    if (postIndex === -1) {
+    return res.status(404).json({ msg: 'Post not found' });
+    }
+    posts.splice(postIndex, 1);
+    res.json({ msg: 'Post deleted' });
 });
 
 export default router;
